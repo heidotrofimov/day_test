@@ -95,7 +95,7 @@ def tile_clear_image(im_S2,name,where):
     os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
     for filename in os.listdir("prediction/"+name):
         if(".png" in filename):
-            mask=Image.open("/home/heido/projects/preprocessing/cloudmasks/"+name+"/"+filename)
+            mask=Image.open("/home/heido/projects/day_test/prediction/"+name+"/"+filename)
     tiles_x=int(im_S2.width/tile_size)
     tiles_y=int(im_S2.height/tile_size)
     for i in range(0,tiles_x):
@@ -129,6 +129,7 @@ def tile_clear_image(im_S2,name,where):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
             if(check_data(RGB_tile)):
                 RGB_tile.save(where+"/"+str(tiles_x)+"_"+str(tiles_y)+".png")
+    os.system("rm -r prediction/*")
     
 f=open("login.txt","r")
 lines=f.readlines()
