@@ -176,7 +176,7 @@ for j in range(len(product_list)):
         os.system("rm -r data/*")
         os.system("rm -r products/*")
         os.system("rm *.png")
-    if(j==1):
+    else:
         month=product_list[j].split("_")[2].split(year)[1][0:2]
         print(month)
         #Download the propduct:
