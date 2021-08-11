@@ -26,7 +26,6 @@ active_months=["11","10","09","08","07"]
 passive_months=["06","05","04"]
 
 os.system("rm *.xml")
-os.system("rm -r products/*")
 
 def download_xml(product, out_path):
     user_name = username
@@ -118,8 +117,10 @@ for j in range(len(product_list)):
         os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
         os.system("mv products/*.SAFE data/")
         #Make the .dim file:
-        command="/snap/snap8/bin/gpt dim.xml -Pinput=\"data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml\" -Poutput=\"data/"+product_list[j]+".SAFE/GRANULE/output.dim\""
-        os.system(command)
+        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
+        output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
+        line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
+        os.system(line_for_gpt)
         #Make the RGB image:
         S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
         band_names = S2_product.getBandNames()
@@ -130,5 +131,7 @@ for j in range(len(product_list)):
         #Tile the image
         im_S2 = Image.open(product_list[j]+".png")
         tile_image(im_S2,product_list[j],"target_images")
+        os.system("rm -r data/*")
+        os.system("rm -r products/*")
         
         
