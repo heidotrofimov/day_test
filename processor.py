@@ -26,7 +26,7 @@ def read_xml(out_path):
     product_list=[]
     txt = Path(out_path).read_text()
     products=txt.split("<title>")
-    for i in range(1,len(products)):
+    for i in range(2,len(products)):
         product=products[i].split("</title>")[0]
         product_list.append(product)
     print(len(product_list))
