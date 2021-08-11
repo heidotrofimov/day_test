@@ -92,7 +92,7 @@ def tile_image(im_S2,name,where):
    
 def tile_clear_image(im_S2,name,where):
     #Make the mask
-    os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict -c config/config_example.json -product "+name)
+    os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
     for filename in os.listdir("prediction/"+name):
         if(".png" in filename):
             mask=Image.open("/home/heido/projects/preprocessing/cloudmasks/"+name+"/"+filename)
