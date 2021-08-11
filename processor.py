@@ -40,7 +40,7 @@ passive_months=["06","05","04"]
 product_list=[]
 
 for month in months:
-    download_xml("S2*MSIL2A*"+year+"*"+place+"*",month+".xml")
+    download_xml("S2*MSIL2A*"+year+month"*"+place+"*",month+".xml")
     month_list=read_xml(month+".xml")
     for product in month_list:
         product_list.append(product)
