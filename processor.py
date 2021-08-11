@@ -140,7 +140,7 @@ product_list=[]
 
 for month in months:
     download_xml("S2*MSIL2A*"+year+month+"*"+place+"*","month_"+month+".xml")
-    month_list=read_xml(month+".xml")
+    month_list=read_xml("month_"+month+".xml")
     for product in month_list:
         product_list.append(product)
 
