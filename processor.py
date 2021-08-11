@@ -103,8 +103,6 @@ for month in months:
     month_list=read_xml(month+".xml")
     for product in month_list:
         product_list.append(product)
-    
-os.system("rm *.xml")
 
 tile_size=512
 
