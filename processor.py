@@ -2,6 +2,9 @@ import os
 import time
 from pathlib import Path
 
+os.system("rm *.xml")
+os.system("rm -r products/*")
+
 def download_xml(product, out_path):
     user_name = username
     user_password = password
@@ -44,5 +47,13 @@ for month in months:
     month_list=read_xml(month+".xml")
     for product in month_list:
         product_list.append(product)
+    
+os.system("rm *.xml")
 
-print(product_list)
+for j in range(len(product_list)):
+    if(j==0):
+        f=open("products/products.dat","w")
+        f.write(product_list[j])
+        f.close()
+        os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
+        os.system("mv products/*.SAFE data/")
