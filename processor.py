@@ -17,6 +17,7 @@ def download_xml(product, out_path):
                   " {url}".format(user=user_name, pwd=user_password, out=out_path, url="\""+scihub_url + product+"\"")
 
     print("Downloading product as " + command)
+    os.system(command)
     time.sleep(1.5)  # scihub does not allow too frequent queries; therefore wait a bit before a new query
         
 download_xml("S2*MSIL2A*202006*T35VMC*","proov.xml")
