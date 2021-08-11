@@ -1,9 +1,10 @@
 import os
+import time
 
 f=open("login.txt","r")
 lines=f.readlines()
-username=lines[0]
-password=lines[1]
+username=lines[0].rstrip()
+password=lines[1].rstrip()
 
 print(username)
 print(password)
