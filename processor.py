@@ -25,8 +25,6 @@ months=["11","10","09","08","07","06","05","04"]
 active_months=["11","10","09","08","07"]
 passive_months=["06","05","04"]
 
-os.system("rm *.xml")
-
 def download_xml(product, out_path):
     user_name = username
     user_password = password
