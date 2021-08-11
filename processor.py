@@ -120,6 +120,7 @@ for j in range(len(product_list)):
         input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
         output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
         line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
+        print(line_for_gpt)
         os.system(line_for_gpt)
         #Make the RGB image:
         S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
