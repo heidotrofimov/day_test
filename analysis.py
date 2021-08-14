@@ -33,11 +33,13 @@ for directory in os.listdir("target_images"):
         
 print(not_found)
 print(did_found)
+print(np.min(list_of_days))
 '''       
 largest_between=np.max(list_of_days)
 for j in range(not_found):
   list_of_days.append(largest_between+1)
 '''   
-binwidth=30
-plt.hist(list_of_days, bins=range(min(list_of_days), max(list_of_days) + binwidth, binwidth))
+
+bins=np.arange(np.max(list_of_days))
+n, bins, patches = plt.hist(list_of_days, bins, density=True,stacked=True, histtype=u'step',facecolor='g')
 plt.savefig("T35VMC_2020.png")
