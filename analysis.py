@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 list_of_days=[]
 not_found=0
+did_found=0
 
 for directory in os.listdir("target_images"):
   date_str=directory.split("_")[2]
@@ -22,15 +23,21 @@ for directory in os.listdir("target_images"):
             if(date_obj2>found_date):
               found_date=date_obj2
       if(found):
-        print(directory+target_tile+" with "+directory2+clear_tile)
+        print(directory+"/"+target_tile+" with "+directory2+"/"+clear_tile)
         between=np.abs((date_obj-date_obj2).days)
         list_of_days.append(between)
+        did_found+=1
       else:
         not_found+=1
- 
+
+        
+print(not_found)
+print(did_found)
+'''       
 largest_between=np.max(list_of_days)
 for j in range(not_found):
   list_of_days.append(largest_between+1)
-        
-n, bins, patches = plt.hist(list_of_days, largest_between+1, facecolor='blue', alpha=0.5)
+'''   
+binwidth=30
+plt.hist(list_of_days, bins=range(min(list_of_days), max(list_of_days) + binwidth, binwidth))
 plt.savefig("T35VMC_2020.png")
