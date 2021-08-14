@@ -21,7 +21,7 @@ for directory in os.listdir("target_images"):
             if(date_obj2>found_date):
               found_date=date_obj2
       if(found):
-        print(directory+target_tile+" with "+directory_2+clear_tile)
+        print(directory+target_tile+" with "+directory2+clear_tile)
         between=np.abs((date_obj-date_obj2).days)
         list_of_days.append(between)
       else:
