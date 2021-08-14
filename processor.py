@@ -174,9 +174,9 @@ for j in range(len(product_list)):
         blue = S2_product.getBand('B2')
         write_rgb_image([red, green, blue], product_list[j]+".png", 'png')
         #Tile the image
-        os.system("mkdir target_images/"+product_list[j])
+        #os.system("mkdir target_images/"+product_list[j])
         im_S2 = Image.open(product_list[j]+".png")
-        where=open(current_dir+"/target_images/"+product_list[j]+".txt")
+        where=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
         tile_image(im_S2,product_list[j],where)
         where.close()
         os.system("rm -r data/*")
