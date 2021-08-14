@@ -23,9 +23,13 @@ Image.MAX_IMAGE_PIXELS = None
 
 os.system("rm month*.xml")
 
-
 year="2020"
-place="T35VMC"
+place="T35VME"
+current_dir=place+"_"+year
+os.system("mkdir "+current_dir)
+os.system("mkdir "+current_dir+"/target_images")
+os.system("mkdir "+current_dir+"/clear_images")
+os.system("rm month*xml")
 months=["11","10","09","08","07","06","05","04"]
 active_months=["11","10","09","08","07"]
 passive_months=["06","05","04"]
@@ -75,21 +79,21 @@ def tile_image(im_S2,name,where):
     for j in range(0,tiles_y):
       RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
       if(check_data(RGB_tile)):
-        RGB_tile.save(where+"/"+str(i)+"_"+str(j)+".png")
+        where.write(str(i)+"_"+str(j)+"\n")
   if(im_S2.width>tiles_x*tile_size):
     for j in range(0,tiles_y):
       RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
       if(check_data(RGB_tile)):
-        RGB_tile.save(where+"/"+str(tiles_x)+"_"+str(j)+".png")
+        where.write(str(tiles_x)+"_"+str(j))
   if(im_S2.height>tiles_y*tile_size):
     for i in range(0,tiles_x):
       RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
       if(check_data(RGB_tile)):
-        RGB_tile.save(where+"/"+str(i)+"_"+str(tiles_y)+".png")
+        where.write(str(i)+"_"+str(tiles_y))
   if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
     RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
     if(check_data(RGB_tile)):
-      RGB_tile.save(where+"/"+str(tiles_x)+"_"+str(tiles_y)+".png")
+      where.write(str(tiles_x)+"_"+str(tiles_y))
    
 def tile_clear_image(im_S2,name,where):
     #Make the mask
@@ -106,7 +110,7 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
                 if(check_data(RGB_tile)):
-                    RGB_tile.save(where+"/"+str(i)+"_"+str(j)+".png")
+                    where.write(str(i)+"_"+str(j))
     if(im_S2.width>tiles_x*tile_size):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
@@ -114,7 +118,7 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
                 if(check_data(RGB_tile)):
-                    RGB_tile.save(where+"/"+str(tiles_x)+"_"+str(j)+".png")
+                    where.write(str(tiles_x)+"_"+str(j))
     if(im_S2.height>tiles_y*tile_size):
         for i in range(0,tiles_x):
             mask_tile=mask.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
@@ -122,14 +126,14 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
                 if(check_data(RGB_tile)):
-                    RGB_tile.save(where+"/"+str(i)+"_"+str(tiles_y)+".png")
+                    where.write(str(i)+"_"+str(tiles_y))
     if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
         mask_tile=mask.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
         mask_array=np.array(mask_tile,dtype=np.float)
         if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
             if(check_data(RGB_tile)):
-                RGB_tile.save(where+"/"+str(tiles_x)+"_"+str(tiles_y)+".png")
+                where.write(str(tiles_x)+"_"+str(tiles_y))
     os.system("rm -r prediction/*")
     
 f=open("login.txt","r")
@@ -157,7 +161,7 @@ for j in range(len(product_list)):
         os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
         os.system("mv products/*.SAFE data/")
         #Make the .dim file:
-        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
+        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A."
         output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
         line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
         print(line_for_gpt)
@@ -172,7 +176,9 @@ for j in range(len(product_list)):
         #Tile the image
         os.system("mkdir target_images/"+product_list[j])
         im_S2 = Image.open(product_list[j]+".png")
-        tile_image(im_S2,product_list[j],"target_images/"+product_list[j])
+        where=open(current_dir+"/target_images/"+product_list[j]+".txt")
+        tile_image(im_S2,product_list[j],where)
+        where.close()
         os.system("rm -r data/*")
         os.system("rm -r products/*")
         os.system("rm *.png")
@@ -200,13 +206,19 @@ for j in range(len(product_list)):
         #Tile the image
         im_S2 = Image.open(product_list[j]+".png")
         if(month in active_months):
-            os.system("mkdir target_images/"+product_list[j])
-            os.system("mkdir clear_images/"+product_list[j])
-            tile_image(im_S2,product_list[j],"target_images/"+product_list[j])
-            tile_clear_image(im_S2,product_list[j],"clear_images/"+product_list[j])
+            where1=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
+            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+            #os.system("mkdir target_images/"+product_list[j])
+            #os.system("mkdir clear_images/"+product_list[j])
+            tile_image(im_S2,product_list[j],where1)
+            tile_clear_image(im_S2,product_list[j],where2)
+            where1.close()
+            where2.close()
         if(month in passive_months):
-            os.system("mkdir clear_images/"+product_list[j])
-            tile_clear_image(im_S2,product_list[j],"clear_images/"+product_list[j])
+            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+            #os.system("mkdir clear_images/"+product_list[j])
+            tile_clear_image(im_S2,product_list[j],where2)
+            where2.close()
         os.system("rm -r data/*")
         os.system("rm -r products/*")
         os.system("rm *.png")
