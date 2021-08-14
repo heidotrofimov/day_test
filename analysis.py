@@ -22,13 +22,13 @@ for directory in os.listdir("target_images"):
             found=True
             if(date_obj2>found_date):
               found_date=date_obj2
-      if(found):
-        print(directory+"/"+target_tile+" with "+directory2+"/"+clear_tile)
-        between=np.abs((date_obj-date_obj2).days)
-        list_of_days.append(between)
-        did_found+=1
-      else:
-        not_found+=1
+    if(found):
+      print(directory+"/"+target_tile+" with "+directory2+"/"+clear_tile)
+      between=np.abs((date_obj-date_obj2).days)
+      list_of_days.append(between)
+      did_found+=1
+    else:
+      not_found+=1
 
         
 print(not_found)
