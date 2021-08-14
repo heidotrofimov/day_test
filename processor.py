@@ -161,7 +161,7 @@ for j in range(len(product_list)):
         os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
         os.system("mv products/*.SAFE data/")
         #Make the .dim file:
-        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A."
+        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
         output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
         line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
         print(line_for_gpt)
