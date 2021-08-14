@@ -13,6 +13,7 @@ for directory in os.listdir("target_images"):
   for target_tile in os.listdir("target_images/"+directory):
     found_date=datetime(1900,1,1)
     found=False
+    found_clear=""
     for directory2 in os.listdir("clear_images"):
       date_str2=directory2.split("_")[2]
       date_obj2=datetime(int(date_str2[0:4]),int(date_str2[4:6]),int(date_str2[6:8]))
@@ -22,9 +23,10 @@ for directory in os.listdir("target_images"):
             found=True
             if(date_obj2>found_date):
               found_date=date_obj2
+              found_clear="clear_images/"+directory2+"/"+clear_tile
     if(found):
-      print(directory+"/"+target_tile+" with "+directory2+"/"+clear_tile)
-      between=np.abs((date_obj-date_obj2).days)
+      print(directory+"/"+target_tile+" with "+found_clear)
+      between=np.abs((date_obj-found_date).days)
       list_of_days.append(between)
       did_found+=1
     else:
