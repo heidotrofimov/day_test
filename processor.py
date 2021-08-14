@@ -84,16 +84,16 @@ def tile_image(im_S2,name,where):
     for j in range(0,tiles_y):
       RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
       if(check_data(RGB_tile)):
-        where.write(str(tiles_x)+"_"+str(j))
+        where.write(str(tiles_x)+"_"+str(j)+"\n")
   if(im_S2.height>tiles_y*tile_size):
     for i in range(0,tiles_x):
       RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
       if(check_data(RGB_tile)):
-        where.write(str(i)+"_"+str(tiles_y))
+        where.write(str(i)+"_"+str(tiles_y)+"\n")
   if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
     RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
     if(check_data(RGB_tile)):
-      where.write(str(tiles_x)+"_"+str(tiles_y))
+      where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
    
 def tile_clear_image(im_S2,name,where):
     #Make the mask
@@ -110,7 +110,7 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
                 if(check_data(RGB_tile)):
-                    where.write(str(i)+"_"+str(j))
+                    where.write(str(i)+"_"+str(j)+"\n")
     if(im_S2.width>tiles_x*tile_size):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
@@ -118,7 +118,7 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
                 if(check_data(RGB_tile)):
-                    where.write(str(tiles_x)+"_"+str(j))
+                    where.write(str(tiles_x)+"_"+str(j)+"\n")
     if(im_S2.height>tiles_y*tile_size):
         for i in range(0,tiles_x):
             mask_tile=mask.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
@@ -126,14 +126,14 @@ def tile_clear_image(im_S2,name,where):
             if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
                 RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
                 if(check_data(RGB_tile)):
-                    where.write(str(i)+"_"+str(tiles_y))
+                    where.write(str(i)+"_"+str(tiles_y)+"\n")
     if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
         mask_tile=mask.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
         mask_array=np.array(mask_tile,dtype=np.float)
         if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
             if(check_data(RGB_tile)):
-                where.write(str(tiles_x)+"_"+str(tiles_y))
+                where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
     os.system("rm -r prediction/*")
     
 f=open("login.txt","r")
