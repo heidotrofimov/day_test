@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timedelta
 import numpy as np
+import matplotlib.pyplot as plt
 
 list_of_days=[]
 not_found=0
@@ -26,7 +27,10 @@ for directory in os.listdir("target_images"):
         list_of_days.append(between)
       else:
         not_found+=1
+ 
+largest_between=np.max(list_of_days)
+for j in range(not_found):
+  list_of_days.append(largest_between+1)
         
-        
-print(list_of_days)                       
-print(not_found)
+n, bins, patches = plt.hist(list_of_days, largest_between+1, facecolor='blue', alpha=0.5)
+plt.savefig("T35VMC_2020.png")
