@@ -50,9 +50,9 @@ for place in places:
           not_found+=1
           place_not_found+=1
   all_days=place_did_found+place_not_found
-  aver=print(np.mean(list_of_days))
-  maks=np.max(list_of_days)
-  miinn=np.min(list_of_days)
+  aver=print(np.mean(place_days))
+  maks=np.max(place_days)
+  miinn=np.min(place_days)
   nr=int(math.ceil(maks/30))
   bins=[]
   values=[]
