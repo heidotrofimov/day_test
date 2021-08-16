@@ -7,21 +7,25 @@ list_of_days=[]
 not_found=0
 did_found=0
 
-for directory in os.listdir("T35VMC_2020/target_images"):
+
+place="T35VME"
+year="2020"
+
+for directory in os.listdir(place+"_"+year+"/target_images"):
   date_str=directory.split("_")[2]
   date_obj=datetime(int(date_str[0:4]),int(date_str[4:6]),int(date_str[6:8]))
-  f=open("T35VMC_2020/target_images/"+directory,"r")
+  f=open(place+"_"+year+"/target_images/"+directory,"r")
   lines=f.readlines()
   f.close()
   for target_tile in lines:
     found_date=datetime(1900,1,1)
     found=False
     found_clear=""
-    for directory2 in os.listdir("T35VMC_2020/clear_images"):
+    for directory2 in os.listdir(place+"_"+year+"/clear_images"):
       date_str2=directory2.split("_")[2]
       date_obj2=datetime(int(date_str2[0:4]),int(date_str2[4:6]),int(date_str2[6:8]))
       if(date_obj>date_obj2):
-        f=open("T35VMC_2020/clear_images/"+directory2,"r")
+        f=open(place+"_"+year+"/clear_images/"+directory2,"r")
         lines2=f.readlines()
         f.close()
         for clear_tile in lines2:
