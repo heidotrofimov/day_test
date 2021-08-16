@@ -50,7 +50,7 @@ for place in places:
           not_found+=1
           place_not_found+=1
   all_days=place_did_found+place_not_found
-  aver=print(np.mean(place_days))
+  aver=np.mean(place_days)
   maks=np.max(place_days)
   miinn=np.min(place_days)
   nr=int(math.ceil(maks/30))
@@ -67,7 +67,10 @@ for place in places:
   values.append((place_not_found/all_days)*100)
   plt.bar(bins,values)
   plt.title(place+"_"+year+"\nAverage time distance: "+str(aver))
+  plt.xlabel("Days between target tile and last clear tile in past")
+  plt.ylabel("% of all target tiles")
   plt.savefig("results/"+place+"_"+year+".png")
+  plt.close()
   
   
         
