@@ -192,15 +192,10 @@ plt.bar(bins,values)
 plt.title("All data\nAverage time distance: "+str(aver))
 plt.xlabel("Days between target tile and last clear tile in past")
 plt.ylabel("% of all target tiles")
-plt.savefig("results/"+place+"_"+year+".png")
+plt.savefig("results/alldata.png")
 plt.close()
 
-
 #Kuude lõikes:
-
-months_days=[]
-months_not_found=[]
-months_did_found=[]
 
 names=["November","October","September","August","July"]
 for i in range(5):
@@ -215,12 +210,12 @@ for i in range(5):
   for j in range(nr):
     bins.append("<"+str((j+1)*30))
     nr_of_days=0
-    for val in place_days:
+    for val in months_days[i]:
       if(val>=j*30 and val<(j+1)*30):
         nr_of_days+=1
     values.append((nr_of_days/all_days)*100)
   bins.append("∞")
-  values.append((not_found/all_days)*100)
+  values.append((months_not_found[i]/all_days)*100)
   plt.bar(bins,values)
   plt.title(name+"\nAverage time distance: "+str(aver))
   plt.xlabel("Days between target tile and last clear tile in past")
