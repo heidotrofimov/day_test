@@ -53,7 +53,7 @@ for place in places:
   aver=print(np.mean(list_of_days))
   maks=np.max(list_of_days)
   miinn=np.min(list_of_days)
-  nr=int(math.ceil(maks/30)))
+  nr=int(math.ceil(maks/30))
   bins=[]
   values=[]
   for j in range(nr):
