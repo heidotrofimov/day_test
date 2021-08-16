@@ -24,7 +24,7 @@ Image.MAX_IMAGE_PIXELS = None
 os.system("rm month*.xml")
 
 year="2020"
-place="T35VME"
+place="T34UED"
 current_dir=place+"_"+year
 os.system("mkdir "+current_dir)
 os.system("mkdir "+current_dir+"/target_images")
