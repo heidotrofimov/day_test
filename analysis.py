@@ -64,7 +64,7 @@ for place in places:
         nr_of_days+=1
     values.append((nr_of_days/all_days)*100)
   bins.append("∞")
-  bins.append((place_not_found/all_days)*100)
+  values.append((place_not_found/all_days)*100)
   plt.bar(bins,values)
   plt.title(place+"_"+year+"\nAverage time distance: "+str(aver))
   plt.savefig("results/"+place+"_"+year+".png")
