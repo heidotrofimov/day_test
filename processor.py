@@ -154,73 +154,75 @@ tile_size=512
 
 for j in range(len(product_list)):
     if(j==0):
-        #Download the propduct:
-        f=open("products/products.dat","w")
-        f.write(product_list[j])
-        f.close()
-        os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
-        os.system("mv products/*.SAFE data/")
-        #Make the .dim file:
-        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
-        output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
-        line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
-        print(line_for_gpt)
-        os.system(line_for_gpt)
-        #Make the RGB image:
-        S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
-        band_names = S2_product.getBandNames()
-        red = S2_product.getBand('B4')
-        green = S2_product.getBand('B3')
-        blue = S2_product.getBand('B2')
-        write_rgb_image([red, green, blue], product_list[j]+".png", 'png')
-        #Tile the image
-        #os.system("mkdir target_images/"+product_list[j])
-        im_S2 = Image.open(product_list[j]+".png")
-        where=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
-        tile_image(im_S2,product_list[j],where)
-        where.close()
-        os.system("rm -r data/*")
-        os.system("rm -r products/*")
-        os.system("rm *.png")
+        if(os.path.isfile(current_dir+"/target_images/"+product_list[j]+".txt")==False):
+            #Download the propduct:
+            f=open("products/products.dat","w")
+            f.write(product_list[j])
+            f.close()
+            os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
+            os.system("mv products/*.SAFE data/")
+            #Make the .dim file:
+            input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
+            output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
+            line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
+            print(line_for_gpt)
+            os.system(line_for_gpt)
+            #Make the RGB image:
+            S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
+            band_names = S2_product.getBandNames()
+            red = S2_product.getBand('B4')
+            green = S2_product.getBand('B3')
+            blue = S2_product.getBand('B2')
+            write_rgb_image([red, green, blue], product_list[j]+".png", 'png')
+            #Tile the image
+            #os.system("mkdir target_images/"+product_list[j])
+            im_S2 = Image.open(product_list[j]+".png")
+            where=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
+            tile_image(im_S2,product_list[j],where)
+            where.close()
+            os.system("rm -r data/*")
+            os.system("rm -r products/*")
+            os.system("rm *.png")
     else:
         month=product_list[j].split("_")[2].split(year)[1][0:2]
         print(month)
         #Download the propduct:
-        f=open("products/products.dat","w")
-        f.write(product_list[j])
-        f.close()
-        os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
-        os.system("mv products/*.SAFE data/")
-        #Make the .dim file:
-        input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
-        output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
-        line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
-        os.system(line_for_gpt)
-        #Make the RGB image:
-        S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
-        band_names = S2_product.getBandNames()
-        red = S2_product.getBand('B4')
-        green = S2_product.getBand('B3')
-        blue = S2_product.getBand('B2')
-        write_rgb_image([red, green, blue], product_list[j]+".png", 'png')
-        #Tile the image
-        im_S2 = Image.open(product_list[j]+".png")
-        if(month in active_months):
-            where1=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
-            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
-            #os.system("mkdir target_images/"+product_list[j])
-            #os.system("mkdir clear_images/"+product_list[j])
-            tile_image(im_S2,product_list[j],where1)
-            tile_clear_image(im_S2,product_list[j],where2)
-            where1.close()
-            where2.close()
-        if(month in passive_months):
-            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
-            #os.system("mkdir clear_images/"+product_list[j])
-            tile_clear_image(im_S2,product_list[j],where2)
-            where2.close()
-        os.system("rm -r data/*")
-        os.system("rm -r products/*")
-        os.system("rm *.png")
+        if(os.path.isfile(current_dir+"/target_images/"+product_list[j]+".txt")==False and os.path.isfile(current_dir+"/clear_images/"+product_list[j]+".txt")==False):
+            f=open("products/products.dat","w")
+            f.write(product_list[j])
+            f.close()
+            os.system("~/miniconda3/envs/senpy/bin/python /home/heido/cvat-vsm/dias_old/main_engine.py -d products")
+            os.system("mv products/*.SAFE data/")
+            #Make the .dim file:
+            input_path="data/"+product_list[j]+".SAFE/MTD_MSIL2A.xml"
+            output_path="data/"+product_list[j]+".SAFE/GRANULE/output.dim"
+            line_for_gpt="/snap/snap8/bin/gpt output.xml -Pinput=\""+input_path+"\" -Poutput=\""+output_path+"\""
+            os.system(line_for_gpt)
+            #Make the RGB image:
+            S2_product=ProductIO.readProduct('data/'+product_list[j]+'.SAFE/GRANULE/output.dim')
+            band_names = S2_product.getBandNames()
+            red = S2_product.getBand('B4')
+            green = S2_product.getBand('B3')
+            blue = S2_product.getBand('B2')
+            write_rgb_image([red, green, blue], product_list[j]+".png", 'png')
+            #Tile the image
+            im_S2 = Image.open(product_list[j]+".png")
+            if(month in active_months):
+                where1=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
+                where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+                #os.system("mkdir target_images/"+product_list[j])
+                #os.system("mkdir clear_images/"+product_list[j])
+                tile_image(im_S2,product_list[j],where1)
+                tile_clear_image(im_S2,product_list[j],where2)
+                where1.close()
+                where2.close()
+            if(month in passive_months):
+                where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+                #os.system("mkdir clear_images/"+product_list[j])
+                tile_clear_image(im_S2,product_list[j],where2)
+                where2.close()
+            os.system("rm -r data/*")
+            os.system("rm -r products/*")
+            os.system("rm *.png")
         
         
