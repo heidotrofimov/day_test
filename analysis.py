@@ -190,8 +190,6 @@ bins.append("∞")
 values.append((not_found/all_days)*100)
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
-ax1.plot(x, y)
-ax2.plot(x, -y)
 
 bins2=[]
 values2=[]
