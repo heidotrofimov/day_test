@@ -179,35 +179,41 @@ miinn=np.min(list_of_days)
 nr=int(math.ceil(maks/30))
 bins=[]
 values=[]
+bins2=[]
+bins2.append(0)
 for j in range(nr):
-  bins.append("<"+str((j+1)*30))
+  bins.append(str(j*30)+"<x<"+str((j+1)*30))
+  bins2.append("<"+str((j+1)*30))
   nr_of_days=0
   for val in place_days:
     if(val>=j*30 and val<(j+1)*30):
       nr_of_days+=1
   values.append((nr_of_days/all_days)*100)
-bins.append("∞")
+bins.append("8")
 values.append((not_found/all_days)*100)
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
+fig.suptitle("All data\nAverage time distance: "+str(aver))
+fig.set_figheight(8)
+fig.set_figwidth(15)
 
-bins2=[]
+
 values2=[]
+
+values2.append(0)
 for j in range(len(bins)-1):
-  bins2.append(bins[j])
-  if(j==0):
-    values2.append(values[j])
-  else:
-    values2.append(values2[j-1]+values[j])
+
+  values2.append(values2[j-1]+values[j])
 
 ax1.bar(bins,values)
 ax1.set_title("All data\nAverage time distance: "+str(aver))
-ax1.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
+ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+ax1.set_xticklabels(bins, rotation=90)
 ax1.grid()
 
 ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
 ax2.set_title("All data\nAverage time distance: "+str(aver))
-ax2.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
+ax2.set(xlabel="Days between target tile and last clear tile")
 ax2.grid()
 plt.savefig("results/alldata.png")
 plt.close()
