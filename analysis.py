@@ -201,17 +201,15 @@ for j in range(len(bins)-1):
     values2.append(values2[j-1]+values[j])
 
 ax1.bar(bins,values)
-ax1.title("All data\nAverage time distance: "+str(aver))
-ax1.xlabel("Days between target tile and last clear tile in past")
-ax1.ylabel("% of all target tiles")
-ax1.savefig("results/alldata.png")
+ax1.set_title("All data\nAverage time distance: "+str(aver))
+ax1.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
 ax1.grid()
 
 ax2.plot(bins2,values2, ls='steps', linewidth=4.0)
-ax2.title("All data\nAverage time distance: "+str(aver))
-ax2.xlabel("Days between target tile and last clear tile in past")
-ax2.ylabel("% of all target tiles")
-ax2.savefig("results/alldata_acc.png")
+ax2.set_title("All data\nAverage time distance: "+str(aver))
+ax2.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
+ax2.grid()
+plt.savefig("results/alldata.png")
 plt.close()
 
 #Kuude lõikes:
