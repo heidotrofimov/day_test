@@ -188,11 +188,32 @@ for j in range(nr):
   values.append((nr_of_days/all_days)*100)
 bins.append("∞")
 values.append((not_found/all_days)*100)
-plt.bar(bins,values)
-plt.title("All data\nAverage time distance: "+str(aver))
-plt.xlabel("Days between target tile and last clear tile in past")
-plt.ylabel("% of all target tiles")
-plt.savefig("results/alldata.png")
+
+fig, (ax1, ax2) = plt.subplots(1, 2)
+ax1.plot(x, y)
+ax2.plot(x, -y)
+
+bins2=[]
+values2=[]
+for j in range(len(bins)-1):
+  bins2.append(bins[j])
+  if(j==0):
+    values2.append(values[j])
+  else:
+    values2.append(values2[j-1]+values[j])
+
+ax1.bar(bins,values)
+ax1.title("All data\nAverage time distance: "+str(aver))
+ax1.xlabel("Days between target tile and last clear tile in past")
+ax1.ylabel("% of all target tiles")
+ax1.savefig("results/alldata.png")
+ax1.grid()
+
+ax2.plot(bins2,values2, ls='steps', linewidth=4.0)
+ax2.title("All data\nAverage time distance: "+str(aver))
+ax2.xlabel("Days between target tile and last clear tile in past")
+ax2.ylabel("% of all target tiles")
+ax2.savefig("results/alldata_acc.png")
 plt.close()
 
 #Kuude lõikes:
