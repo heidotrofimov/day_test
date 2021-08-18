@@ -202,10 +202,7 @@ values2=[]
 
 values2.append(0)
 for j in range(len(bins)-1):
-  if(j==0):
-    values2.append(values[j])
-  else:
-    values2.append(values2[j-1]+values[j])
+  values2.append(values2[-1]+values[j])
 
 ax1.bar(bins,values)
 ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
