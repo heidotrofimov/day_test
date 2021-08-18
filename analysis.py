@@ -205,7 +205,7 @@ ax1.set_title("All data\nAverage time distance: "+str(aver))
 ax1.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
 ax1.grid()
 
-ax2.plot(bins2,values2, ls='steps', linewidth=4.0)
+ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
 ax2.set_title("All data\nAverage time distance: "+str(aver))
 ax2.set(xlabel="Days between target tile and last clear tile in past", ylabel="% of all target tiles")
 ax2.grid()
