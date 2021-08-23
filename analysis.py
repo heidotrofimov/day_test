@@ -294,7 +294,7 @@ for i in range(5):
   for j in range(len(bins)-1):
     values2.append(values2[-1]+values[j])
   xlabels=[]
-  for k in range(len(bins2)):
+  for k in range(len(bins2)-1):
     xlabels.append(k+0.5)
   fig, (ax1, ax2) = plt.subplots(1, 2)
   fig.suptitle(name+"\nAverage time distance: "+str(int(aver))+"\n For "+str(months_did_found)+" tiles clear historical image was found, for "+str(months_not_found)+" tiles no clear historical image was found")
