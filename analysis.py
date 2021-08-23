@@ -10,7 +10,8 @@ not_found=0
 did_found=0
 
 
-places=["T35VME","T35VMC","T34UED"]
+#places=["T35VME","T35VMC","T34UED"]
+places=["T35VME"]
 years=["2020"]
 
 #Asukohad eraldi, aastad kokku
@@ -64,6 +65,25 @@ for place in places:
       if(val>=j*30 and val<(j+1)*30):
         nr_of_days+=1
     values.append((nr_of_days/all_days)*100)
+    
+  fig, (ax1, ax2) = plt.subplots(1, 2)
+  fig.suptitle(place+"\nAverage time distance: "+str(aver)+"\n"+str(found)+" tiles paired with clear historical tile, for "+str(not_found)+" tiles no clear historical image was found")
+  fig.set_figheight(8)
+  fig.set_figwidth(15)
+    
+  ax1.bar(bins,values)
+  ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax1.set_xticklabels(bins, rotation=45)
+  ax1.grid()
+
+  ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+  ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
+  ax2.grid()
+  plt.savefig("results/alldata.png",bbox_inches='tight')
+  plt.close()
+    
+    
   bins.append("∞")
   values.append((place_not_found/all_days)*100)
   plt.bar(bins,values)
@@ -75,6 +95,8 @@ for place in places:
   
 #Aastad eraldi, asukohad kokku:
 #Kuud eraldi, aastad ja asukohad kokku
+
+'''
 
 months_days=[]
 months_not_found=[]
@@ -243,4 +265,4 @@ for i in range(5):
   plt.savefig("results/"+name+".png")
   plt.close()
 
-
+'''
