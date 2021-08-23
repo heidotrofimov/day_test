@@ -10,9 +10,8 @@ not_found=0
 did_found=0
 
 
-#places=["T35VME","T35VMC","T34UED"]
-places=["T35VME"]
-years=["2020"]
+places=["T35VME","T35VMC","T34UED"]
+years=["2020","2018"]
 
 #Asukohad eraldi, aastad kokku
 
@@ -77,7 +76,7 @@ for place in places:
     values2.append(values2[-1]+values[j])
   
   fig, (ax1, ax2) = plt.subplots(1, 2)
-  fig.suptitle(place+"\nAverage time distance: "+str(int(aver))+"\n For"+str(did_found)+" tiles clear historical image was found, for "+str(not_found)+" tiles no clear historical image was found")
+  fig.suptitle(place+"\nAverage time distance: "+str(int(aver))+"\n For "+str(place_did_found)+" tiles clear historical image was found, for "+str(place_not_found)+" tiles no clear historical image was found")
   fig.set_figheight(8)
   fig.set_figwidth(15)
     
@@ -99,8 +98,6 @@ for place in places:
   
 #Aastad eraldi, asukohad kokku:
 #Kuud eraldi, aastad ja asukohad kokku
-
-'''
 
 months_days=[]
 months_not_found=[]
@@ -177,10 +174,14 @@ for year in years:
   maks=np.max(place_days)
   miinn=np.min(place_days)
   nr=int(math.ceil(maks/30))
+  
   bins=[]
   values=[]
+  bins2=[]
+  bins2.append(0)
   for j in range(nr):
-    bins.append("<"+str((j+1)*30))
+    bins.append(str(j*30)+"<x<"+str((j+1)*30))
+    bins2.append("<"+str((j+1)*30))
     nr_of_days=0
     for val in place_days:
       if(val>=j*30 and val<(j+1)*30):
@@ -188,13 +189,31 @@ for year in years:
     values.append((nr_of_days/all_days)*100)
   bins.append("∞")
   values.append((place_not_found/all_days)*100)
-  plt.bar(bins,values)
-  plt.title(year+"\nAverage time distance: "+str(aver))
-  plt.xlabel("Days between target tile and last clear tile in past")
-  plt.ylabel("% of all target tiles")
-  plt.savefig("results/"+year+"_allplaces.png")
-  plt.close()
+  values2=[]
 
+  values2.append(0)
+  for j in range(len(bins)-1):
+    values2.append(values2[-1]+values[j])
+  
+  fig, (ax1, ax2) = plt.subplots(1, 2)
+  fig.suptitle(year+"\nAverage time distance: "+str(int(aver))+"\n For "+str(place_did_found)+" tiles clear historical image was found, for "+str(place_not_found)+" tiles no clear historical image was found")
+  fig.set_figheight(8)
+  fig.set_figwidth(15)
+    
+  ax1.bar(bins,values)
+  ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax1.set_xticklabels(bins, rotation=45)
+  ax1.grid()
+
+  ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+  ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5])
+  ax2.set_xticklabels(bins2[1:])
+  ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
+  ax2.grid()
+  plt.savefig("results/"+year+"_allplaces.png",bbox_inches='tight')
+  plt.close()
+  
   
 #Kõik kokku:
 
@@ -219,10 +238,9 @@ bins.append("∞")
 values.append((not_found/all_days)*100)
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
-fig.suptitle("All data\nAverage time distance: "+str(aver))
+fig.suptitle("\nAverage time distance: "+str(int(aver))+"\n For "+str(did_found)+" tiles clear historical image was found, for "+str(not_found)+" tiles no clear historical image was found")
 fig.set_figheight(8)
 fig.set_figwidth(15)
-
 
 values2=[]
 
@@ -236,7 +254,10 @@ ax1.set_xticklabels(bins, rotation=45)
 ax1.grid()
 
 ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5])
+ax2.set_xticklabels(bins2[1:])
 ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
 ax2.grid()
 plt.savefig("results/alldata.png",bbox_inches='tight')
 plt.close()
@@ -253,8 +274,16 @@ for i in range(5):
   nr=int(math.ceil(maks/30))
   bins=[]
   values=[]
+  
+  bins2=[]
+  bins2.append(0)
+  values2=[]
+
+  values2.append(0)
+    
   for j in range(nr):
-    bins.append("<"+str((j+1)*30))
+    bins.append(str(j*30)+"<x<"+str((j+1)*30))
+    bins2.append("<"+str((j+1)*30))
     nr_of_days=0
     for val in months_days[i]:
       if(val>=j*30 and val<(j+1)*30):
@@ -262,11 +291,26 @@ for i in range(5):
     values.append((nr_of_days/all_days)*100)
   bins.append("∞")
   values.append((months_not_found[i]/all_days)*100)
-  plt.bar(bins,values)
-  plt.title(name+"\nAverage time distance: "+str(aver))
-  plt.xlabel("Days between target tile and last clear tile in past")
-  plt.ylabel("% of all target tiles")
-  plt.savefig("results/"+name+".png")
-  plt.close()
+  for j in range(len(bins)-1):
+    values2.append(values2[-1]+values[j])
+  xlabels=[]
+  for k in range(len(bins2)):
+    xlabels.append(k+0.5)
+  fig, (ax1, ax2) = plt.subplots(1, 2)
+  fig.suptitle(name+"\nAverage time distance: "+str(int(aver))+"\n For "+str(months_did_found)+" tiles clear historical image was found, for "+str(months_not_found)+" tiles no clear historical image was found")
+  fig.set_figheight(8)
+  fig.set_figwidth(15)
+    
+  ax1.bar(bins,values)
+  ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax1.set_xticklabels(bins, rotation=45)
+  ax1.grid()
 
-'''
+  ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+  ax2.set_xticks(xlabels)
+  ax2.set_xticklabels(bins2[1:])
+  ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+  ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
+  ax2.grid()
+  plt.savefig("results/"+month+"_allplaces_allyears.png",bbox_inches='tight')
+  plt.close()
