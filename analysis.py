@@ -230,7 +230,7 @@ for j in range(nr):
   bins.append(str(j*30)+"<x<"+str((j+1)*30))
   bins2.append("<"+str((j+1)*30))
   nr_of_days=0
-  for val in place_days:
+  for val in list_of_days:
     if(val>=j*30 and val<(j+1)*30):
       nr_of_days+=1
   values.append((nr_of_days/all_days)*100)
@@ -312,5 +312,5 @@ for i in range(5):
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
   ax2.grid()
-  plt.savefig("results/"+month+"_allplaces_allyears.png",bbox_inches='tight')
+  plt.savefig("results/"+name+"_allplaces_allyears.png",bbox_inches='tight')
   plt.close()
