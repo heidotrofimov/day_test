@@ -87,7 +87,7 @@ for place in places:
   ax1.grid()
 
   ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
-  ax2.set_xticks([0,0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5])
+  ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5])
   ax2.set_xticklabels(bins2[1:])
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
