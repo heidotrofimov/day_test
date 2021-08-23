@@ -125,8 +125,7 @@ def tile_clear_image(im_S2,name,where):
 
 
 
-year="2018"
-place="T34UED"
+year="2019"
 
 places=["T34UED","T35VMC","T35VME"]
 
