@@ -67,8 +67,9 @@ for place in places:
     for val in place_days:
       if(val>=j*30 and val<(j+1)*30):
         nr_of_days+=1
-  values.append((nr_of_days/all_days)*100)
-  
+    values.append((nr_of_days/all_days)*100)
+  bins.append("∞")
+  values.append((place_not_found/all_days)*100)
   values2=[]
 
   values2.append(0)
