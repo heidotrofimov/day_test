@@ -77,7 +77,7 @@ for place in places:
     values2.append(values2[-1]+values[j])
   
   fig, (ax1, ax2) = plt.subplots(1, 2)
-  fig.suptitle(place+"\nAverage time distance: "+str(aver)+"\n"+str(found)+" tiles paired with clear historical tile, for "+str(not_found)+" tiles no clear historical image was found")
+  fig.suptitle(place+"\nAverage time distance: "+str(int(aver))+"\n For"+str(did_found)+" tiles clear historical image was found, for "+str(not_found)+" tiles no clear historical image was found")
   fig.set_figheight(8)
   fig.set_figwidth(15)
     
@@ -87,6 +87,7 @@ for place in places:
   ax1.grid()
 
   ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+  ax2.set_xticks([0,1,2,3,4,5,6,7,8])
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
   ax2.grid()
