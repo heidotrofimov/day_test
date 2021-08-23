@@ -61,12 +61,12 @@ for place in places:
   bins2=[]
   bins2.append(0)
   for j in range(nr):
-  bins.append(str(j*30)+"<x<"+str((j+1)*30))
-  bins2.append("<"+str((j+1)*30))
-  nr_of_days=0
-  for val in place_days:
-    if(val>=j*30 and val<(j+1)*30):
-      nr_of_days+=1
+    bins.append(str(j*30)+"<x<"+str((j+1)*30))
+    bins2.append("<"+str((j+1)*30))
+    nr_of_days=0
+    for val in place_days:
+      if(val>=j*30 and val<(j+1)*30):
+        nr_of_days+=1
   values.append((nr_of_days/all_days)*100)
   
   values2=[]
