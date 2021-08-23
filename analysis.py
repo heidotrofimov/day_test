@@ -58,14 +58,23 @@ for place in places:
   nr=int(math.ceil(maks/30))
   bins=[]
   values=[]
+  bins2=[]
+  bins2.append(0)
   for j in range(nr):
-    bins.append("<"+str((j+1)*30))
-    nr_of_days=0
-    for val in place_days:
-      if(val>=j*30 and val<(j+1)*30):
-        nr_of_days+=1
-    values.append((nr_of_days/all_days)*100)
-    
+  bins.append(str(j*30)+"<x<"+str((j+1)*30))
+  bins2.append("<"+str((j+1)*30))
+  nr_of_days=0
+  for val in place_days:
+    if(val>=j*30 and val<(j+1)*30):
+      nr_of_days+=1
+  values.append((nr_of_days/all_days)*100)
+  
+  values2=[]
+
+  values2.append(0)
+  for j in range(len(bins)-1):
+    values2.append(values2[-1]+values[j])
+  
   fig, (ax1, ax2) = plt.subplots(1, 2)
   fig.suptitle(place+"\nAverage time distance: "+str(aver)+"\n"+str(found)+" tiles paired with clear historical tile, for "+str(not_found)+" tiles no clear historical image was found")
   fig.set_figheight(8)
@@ -80,18 +89,10 @@ for place in places:
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
   ax2.grid()
-  plt.savefig("results/alldata.png",bbox_inches='tight')
+  plt.savefig("results/"+place+"_allyears.png",bbox_inches='tight')
   plt.close()
     
     
-  bins.append("∞")
-  values.append((place_not_found/all_days)*100)
-  plt.bar(bins,values)
-  plt.title(place+"\nAverage time distance: "+str(aver))
-  plt.xlabel("Days between target tile and last clear tile in past")
-  plt.ylabel("% of all target tiles")
-  plt.savefig("results/"+place+"_allyears.png")
-  plt.close()
   
 #Aastad eraldi, asukohad kokku:
 #Kuud eraldi, aastad ja asukohad kokku
