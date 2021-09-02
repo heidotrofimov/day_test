@@ -82,7 +82,7 @@ def tile_image(im_S2,name,where):
     if(check_data(RGB_tile)):
       where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
 
-def tile_clear_image(im_S2,name,where):
+def tile_clear_image(im_S2,name,where,pr):
     #Make the mask
     os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
     for filename in os.listdir("prediction/"+name):
@@ -90,11 +90,16 @@ def tile_clear_image(im_S2,name,where):
             mask=Image.open("/home/heido/projects/day_test/prediction/"+name+"/"+filename)
     tiles_x=int(im_S2.width/tile_size)
     tiles_y=int(im_S2.height/tile_size)
+    all_pixels=im_S2.width*im_S2.height
     for i in range(0,tiles_x):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
             mask_array=np.array(mask_tile,dtype=np.float)
-            if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
+            polluted_pixels=0
+            for val in mask_array:
+                if(val==255 or val==192 or val==129):
+                    polluted_pixels+=1      
+            if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
                 if(check_data(RGB_tile)):
                     where.write(str(i)+"_"+str(j)+"\n")
@@ -102,7 +107,11 @@ def tile_clear_image(im_S2,name,where):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
             mask_array=np.array(mask_tile,dtype=np.float)
-            if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
+            polluted_pixels=0
+            for val in mask_array:
+                if(val==255 or val==192 or val==129):
+                    polluted_pixels+=1      
+            if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
                 if(check_data(RGB_tile)):
                     where.write(str(tiles_x)+"_"+str(j)+"\n")
@@ -110,14 +119,22 @@ def tile_clear_image(im_S2,name,where):
         for i in range(0,tiles_x):
             mask_tile=mask.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
             mask_array=np.array(mask_tile,dtype=np.float)
-            if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
+            polluted_pixels=0
+            for val in mask_array:
+                if(val==255 or val==192 or val==129):
+                    polluted_pixels+=1      
+            if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
                 if(check_data(RGB_tile)):
                     where.write(str(i)+"_"+str(tiles_y)+"\n")
     if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
         mask_tile=mask.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
         mask_array=np.array(mask_tile,dtype=np.float)
-        if(not any(255 in b for b in mask_array) and not any(192 in b for b in mask_array) and not any(129 in b for b in mask_array)):
+        polluted_pixels=0
+        for val in mask_array:
+            if(val==255 or val==192 or val==129):
+                polluted_pixels+=1      
+        if(polluted_pixels/all_pixels*100<=pr):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
             if(check_data(RGB_tile)):
                 where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
@@ -126,16 +143,21 @@ def tile_clear_image(im_S2,name,where):
 
 
 year="2019"
-years=["2020","2018"]
-places=["T34UED","T35VMC","T35VME"]
+years=["2020"]
+places=["T35VMC"]
+percents=[2,3,5]
+
+year=2020
 
 for place in places:
-    for year in years:
         os.system("rm month*.xml")
-        current_dir=place+"_"+year+"_256"
+        current_dir=place+"_"+year+"_256_pr"
         os.system("mkdir "+current_dir)
         os.system("mkdir "+current_dir+"/target_images")
-        os.system("mkdir "+current_dir+"/clear_images")
+        os.system("mkdir "+current_dir+"/clear_images_2")
+        os.system("mkdir "+current_dir+"/clear_images_3")
+        os.system("mkdir "+current_dir+"/clear_images_5")
+        
         months=["11","10","09","08","07","06","05","04"]
         active_months=["11","10","09","08","07"]
         passive_months=["06","05","04"]
@@ -217,18 +239,30 @@ for place in places:
                         im_S2 = Image.open(product_list[j]+".png")
                         if(month in active_months):
                             where1=open(current_dir+"/target_images/"+product_list[j]+".txt","w")
-                            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+                            where2=open(current_dir+"/clear_images_2/"+product_list[j]+".txt","w")
+                            where3=open(current_dir+"/clear_images_3/"+product_list[j]+".txt","w")
+                            where4=open(current_dir+"/clear_images_5/"+product_list[j]+".txt","w")
                             #os.system("mkdir target_images/"+product_list[j])
                             #os.system("mkdir clear_images/"+product_list[j])
                             tile_image(im_S2,product_list[j],where1)
-                            tile_clear_image(im_S2,product_list[j],where2)
+                            tile_clear_image(im_S2,product_list[j],where2,2)
+                            tile_clear_image(im_S2,product_list[j],where3,3)
+                            tile_clear_image(im_S2,product_list[j],where4,5)
                             where1.close()
                             where2.close()
+                            where3.close()
+                            where4.close()
                         if(month in passive_months):
-                            where2=open(current_dir+"/clear_images/"+product_list[j]+".txt","w")
+                            where2=open(current_dir+"/clear_images_2/"+product_list[j]+".txt","w")
+                            where3=open(current_dir+"/clear_images_3/"+product_list[j]+".txt","w")
+                            where4=open(current_dir+"/clear_images_5/"+product_list[j]+".txt","w")
                             #os.system("mkdir clear_images/"+product_list[j])
-                            tile_clear_image(im_S2,product_list[j],where2)
+                            tile_clear_image(im_S2,product_list[j],where2,2)
+                            tile_clear_image(im_S2,product_list[j],where3,3)
+                            tile_clear_image(im_S2,product_list[j],where4,5)
                             where2.close()
+                            where3.close()
+                            where4.close()
                         os.system("rm -r data/*")
                         os.system("rm -r products/*")
                         os.system("rm *.png")
