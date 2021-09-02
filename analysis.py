@@ -10,8 +10,8 @@ not_found=0
 did_found=0
 
 
-places=["T34UED"]
-years=["2020","2018"]
+places=["T35VMC"]
+years=["2020"]
 
 #Asukohad eraldi, aastad kokku
 
