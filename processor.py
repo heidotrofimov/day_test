@@ -86,13 +86,13 @@ def tile_clear_image(im_S2,name,where,pr):
     #Make the mask
     for filename in os.listdir("prediction/"+name):
         if(".png" in filename):
-            mask=Image.open("/home/heido/projects/day_test/prediction/"+name+"/"+filename)
+            mask_o=Image.open("/home/heido/projects/day_test/prediction/"+name+"/"+filename)
     tiles_x=int(im_S2.width/tile_size)
     tiles_y=int(im_S2.height/tile_size)
-    all_pixels=im_S2.width*im_S2.height
+    all_pixels=mask_o.width*mask_o.height
     for i in range(0,tiles_x):
         for j in range(0,tiles_y):
-            mask_tile=mask.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
+            mask_tile=mask_o.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
             mask=mask_tile.load()
             polluted_pixels=0
             for k in range(mask_tile.width):
@@ -105,7 +105,7 @@ def tile_clear_image(im_S2,name,where,pr):
                     where.write(str(i)+"_"+str(j)+"\n")
     if(im_S2.width>tiles_x*tile_size):
         for j in range(0,tiles_y):
-            mask_tile=mask.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
+            mask_tile=mask_o.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
             mask=mask_tile.load()
             polluted_pixels=0
             for k in range(mask_tile.width):
@@ -118,7 +118,7 @@ def tile_clear_image(im_S2,name,where,pr):
                     where.write(str(tiles_x)+"_"+str(j)+"\n")
     if(im_S2.height>tiles_y*tile_size):
         for i in range(0,tiles_x):
-            mask_tile=mask.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
+            mask_tile=mask_o.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
             mask=mask_tile.load()
             polluted_pixels=0
             for k in range(mask_tile.width):
@@ -130,7 +130,7 @@ def tile_clear_image(im_S2,name,where,pr):
                 if(check_data(RGB_tile)):
                     where.write(str(i)+"_"+str(tiles_y)+"\n")
     if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
-        mask_tile=mask.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
+        mask_tile=mask_o.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
         mask=mask_tile.load()
         polluted_pixels=0
         for k in range(mask_tile.width):
@@ -142,8 +142,6 @@ def tile_clear_image(im_S2,name,where,pr):
             if(check_data(RGB_tile)):
                 where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
     
-
-
 
 year="2019"
 years=["2020"]
