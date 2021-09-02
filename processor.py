@@ -97,7 +97,7 @@ def tile_clear_image(im_S2,name,where,pr):
             polluted_pixels=0
             for k in range(mask_tile.width):
                 for m in range(mask_tile.height):
-                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                    if(mask[k,m][0]==255 or mask[k,m][0]==192 or mask[k,m][0]==129):
                         polluted_pixels+=1      
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
@@ -111,7 +111,7 @@ def tile_clear_image(im_S2,name,where,pr):
             polluted_pixels=0
             for k in range(mask_tile.width):
                 for m in range(mask_tile.height):
-                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                    if(mask[k,m][0]==255 or mask[k,m][0]==192 or mask[k,m][0]==129):
                         polluted_pixels+=1  
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
@@ -125,7 +125,7 @@ def tile_clear_image(im_S2,name,where,pr):
             polluted_pixels=0
             for k in range(mask_tile.width):
                 for m in range(mask_tile.height):
-                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                    if(mask[k,m][0]==255 or mask[k,m][0]==192 or mask[k,m][0]==129):
                         polluted_pixels+=1        
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
@@ -138,7 +138,7 @@ def tile_clear_image(im_S2,name,where,pr):
         polluted_pixels=0
         for k in range(mask_tile.width):
             for m in range(mask_tile.height):
-                if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                if(mask[k,m][0]==255 or mask[k,m][0]==192 or mask[k,m][0]==129):
                     polluted_pixels+=1  
         if(polluted_pixels/all_pixels*100<=pr):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
