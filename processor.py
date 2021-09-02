@@ -184,6 +184,7 @@ for place in places:
     tile_size=256
 
     for j in range(len(product_list)):
+        name=product_list[j]
         if(j==0):
             if(os.path.isfile(current_dir+"/target_images/"+product_list[j]+".txt")==False):
                 #Download the propduct:
