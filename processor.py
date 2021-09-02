@@ -84,7 +84,6 @@ def tile_image(im_S2,name,where):
 
 def tile_clear_image(im_S2,name,where,pr):
     #Make the mask
-    os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
     for filename in os.listdir("prediction/"+name):
         if(".png" in filename):
             mask=Image.open("/home/heido/projects/day_test/prediction/"+name+"/"+filename)
@@ -94,11 +93,12 @@ def tile_clear_image(im_S2,name,where,pr):
     for i in range(0,tiles_x):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
-            mask_array=np.array(mask_tile,dtype=np.float)
+            mask=mask_tile.load()
             polluted_pixels=0
-            for val in mask_array:
-                if(val==255 or val==192 or val==129):
-                    polluted_pixels+=1      
+            for k in range(mask_tile.width):
+                for m in range(mask_tile.height):
+                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                        polluted_pixels+=1      
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,j*tile_size,tile_size*(i+1),tile_size*(j+1)))
                 if(check_data(RGB_tile)):
@@ -106,11 +106,12 @@ def tile_clear_image(im_S2,name,where,pr):
     if(im_S2.width>tiles_x*tile_size):
         for j in range(0,tiles_y):
             mask_tile=mask.crop((mask.width-tile_size,j*tile_size,mask.width,tile_size*(j+1)))
-            mask_array=np.array(mask_tile,dtype=np.float)
+            mask=mask_tile.load()
             polluted_pixels=0
-            for val in mask_array:
-                if(val==255 or val==192 or val==129):
-                    polluted_pixels+=1      
+            for k in range(mask_tile.width):
+                for m in range(mask_tile.height):
+                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                        polluted_pixels+=1  
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((im_S2.width-tile_size,j*tile_size,im_S2.width,tile_size*(j+1)))
                 if(check_data(RGB_tile)):
@@ -118,27 +119,29 @@ def tile_clear_image(im_S2,name,where,pr):
     if(im_S2.height>tiles_y*tile_size):
         for i in range(0,tiles_x):
             mask_tile=mask.crop((i*tile_size,mask.height-tile_size,tile_size*(i+1),mask.height))
-            mask_array=np.array(mask_tile,dtype=np.float)
+            mask=mask_tile.load()
             polluted_pixels=0
-            for val in mask_array:
-                if(val==255 or val==192 or val==129):
-                    polluted_pixels+=1      
+            for k in range(mask_tile.width):
+                for m in range(mask_tile.height):
+                    if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                        polluted_pixels+=1        
             if(polluted_pixels/all_pixels*100<=pr):
                 RGB_tile=im_S2.crop((i*tile_size,im_S2.height-tile_size,tile_size*(i+1),im_S2.height))
                 if(check_data(RGB_tile)):
                     where.write(str(i)+"_"+str(tiles_y)+"\n")
     if(im_S2.height>tiles_y*tile_size and im_S2.width>tiles_x*tile_size):
         mask_tile=mask.crop((mask.width-tile_size,mask.height-tile_size,mask.width,mask.height))
-        mask_array=np.array(mask_tile,dtype=np.float)
+        mask=mask_tile.load()
         polluted_pixels=0
-        for val in mask_array:
-            if(val==255 or val==192 or val==129):
-                polluted_pixels+=1      
+        for k in range(mask_tile.width):
+            for m in range(mask_tile.height):
+                if(mask[k,m]==255 or mask[k,m]==192 or mask[k,m]==129):
+                    polluted_pixels+=1  
         if(polluted_pixels/all_pixels*100<=pr):
             RGB_tile=im_S2.crop((im_S2.width-tile_size,im_S2.height-tile_size,im_S2.width,im_S2.height))
             if(check_data(RGB_tile)):
                 where.write(str(tiles_x)+"_"+str(tiles_y)+"\n")
-    os.system("rm -r prediction/*")
+    
 
 
 
@@ -245,6 +248,7 @@ for place in places:
                         #os.system("mkdir target_images/"+product_list[j])
                         #os.system("mkdir clear_images/"+product_list[j])
                         tile_image(im_S2,product_list[j],where1)
+                        os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
                         tile_clear_image(im_S2,product_list[j],where2,2)
                         tile_clear_image(im_S2,product_list[j],where3,3)
                         tile_clear_image(im_S2,product_list[j],where4,5)
@@ -252,17 +256,20 @@ for place in places:
                         where2.close()
                         where3.close()
                         where4.close()
+                        os.system("rm -r prediction/*")
                     if(month in passive_months):
                         where2=open(current_dir+"/clear_images_2/"+product_list[j]+".txt","w")
                         where3=open(current_dir+"/clear_images_3/"+product_list[j]+".txt","w")
                         where4=open(current_dir+"/clear_images_5/"+product_list[j]+".txt","w")
                         #os.system("mkdir clear_images/"+product_list[j])
+                        os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
                         tile_clear_image(im_S2,product_list[j],where2,2)
                         tile_clear_image(im_S2,product_list[j],where3,3)
                         tile_clear_image(im_S2,product_list[j],where4,5)
                         where2.close()
                         where3.close()
                         where4.close()
+                        os.system("rm -r prediction/*")
                     os.system("rm -r data/*")
                     os.system("rm -r products/*")
                     os.system("rm *.png")
