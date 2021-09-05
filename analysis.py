@@ -63,11 +63,11 @@ for place in places:
     bins2=[]
     bins2.append(0)
     for j in range(nr):
-      bins.append(str(j*30)+"<x<"+str((j+1)*30))
-      bins2.append("<"+str((j+1)*30))
+      bins.append(str(j*5)+"<x<"+str((j+1)*5))
+      bins2.append("<"+str((j+1)*5))
       nr_of_days=0
       for val in place_days:
-        if(val>=j*30 and val<(j+1)*30):
+        if(val>=j*5 and val<(j+1)*5):
           nr_of_days+=1
       values.append((nr_of_days/all_days)*100)
     bins.append("∞")
@@ -87,14 +87,12 @@ for place in places:
     ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax1.set_xticklabels(bins, rotation=45)
     ax1.grid()
+    xticklock=[]
+    for w in range(len(bins2[1:])):
+      xticklock.append(w+0.5)
 
     ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
-    if(len(bins2[1:])==8):
-      ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5])
-    if(len(bins2[1:])==7):
-      ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5,6.5])
-    if(len(bins2[1:])==6):
-      ax2.set_xticks([0.5,1.5,2.5,3.5,4.5,5.5])
+    ax2.set_xticks(xticklock)
     print(bins2)
     ax2.set_xticklabels(bins2[1:])
     ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
