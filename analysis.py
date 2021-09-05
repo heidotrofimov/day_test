@@ -24,9 +24,14 @@ names=["November","October","September","August","July"]
 
 for place in places:
   for p in pr:
-    months_days=[[],[],[],[],[]]
-    months_found=[[0],[0],[0],[0],[0]]
-    months_not_found=[[0],[0],[0],[0],[0]]
+    months_days=[]
+    months_not_found=[]
+    months_found=[]
+    for k in range(5):
+      temp=[]
+      months_days.append(temp)
+      months_not_found.append(0)
+      months_found.append(0)
     place_days=[]
     place_not_found=0
     place_did_found=0
