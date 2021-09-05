@@ -15,10 +15,18 @@ years=["2020"]
 
 pr=["2","3","5"]
 
+months_days=[[[],[],[],[],[]],[[],[],[],[],[]],[[],[],[],[],[]]]
+months_found=[[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]]]
+months_not_found=[[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]]]
+names=["November","October","September","August","July"]
+
 #Asukohad eraldi, aastad kokku
 
 for place in places:
   for p in pr:
+    months_days=[[],[],[],[],[]]
+    months_found=[[0],[0],[0],[0],[0]]
+    months_not_found=[[0],[0],[0],[0],[0]]
     place_days=[]
     place_not_found=0
     place_did_found=0
@@ -50,14 +58,39 @@ for place in places:
             place_days.append(between)
             place_did_found+=1
             did_found+=1
+            if(date_str[4:6]=="11"):
+              months_days[0].append(between)
+              months_found[0]+=1
+            if(date_str[4:6]=="10"):
+              months_days[1].append(between)
+              months_found[1]+=1
+            if(date_str[4:6]=="09"):
+              months_days[2].append(between)
+              months_found[2]+=1
+            if(date_str[4:6]=="08"):
+              months_days[3].append(between)
+              months_found[3]+=1
+            if(date_str[4:6]=="07"):
+              months_days[4].append(between)
+              months_found[4]+=1
           else:
             not_found+=1
             place_not_found+=1
+            if(date_str[4:6]=="11"):
+              months_not_found[0]+=1
+            if(date_str[4:6]=="10"):
+              months_not_found[1]+=1
+            if(date_str[4:6]=="09"):
+              months_not_found[2]+=1
+            if(date_str[4:6]=="08"):
+              months_not_found[3]+=1
+            if(date_str[4:6]=="07"):
+              months_not_found[4]+=1
     all_days=place_did_found+place_not_found
     aver=np.mean(place_days)
     maks=np.max(place_days)
     miinn=np.min(place_days)
-    nr=int(math.ceil(maks/30))
+    nr=int(math.ceil(maks/5))
     bins=[]
     values=[]
     bins2=[]
@@ -100,6 +133,55 @@ for place in places:
     ax2.grid()
     plt.savefig("results/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
     plt.close()
+    for q in range(5):
+        all_days=months_found[q]+months_not_found[q]
+        aver=np.mean(months_days[q])
+        maks=np.max(months_days[q])
+        miinn=np.min(months_days[q])
+        nr=int(math.ceil(maks/5))
+        bins=[]
+        values=[]
+        bins2=[]
+        bins2.append(0)
+        for j in range(nr):
+          bins.append(str(j*5)+"<x<"+str((j+1)*5))
+          bins2.append("<"+str((j+1)*5))
+          nr_of_days=0
+          for val in months_days[q]:
+            if(val>=j*5 and val<(j+1)*5):
+              nr_of_days+=1
+          values.append((nr_of_days/all_days)*100)
+        bins.append("∞")
+        values.append((place_not_found/all_days)*100)
+        values2=[]
+
+        values2.append(0)
+        for j in range(len(bins)-1):
+          values2.append(values2[-1]+values[j])
+
+        fig, (ax1, ax2) = plt.subplots(1, 2)
+        fig.suptitle(names[q]+"\nAverage time distance: "+str(int(aver))+"\n For "+str(months_found[q])+" tiles clear historical image was found, for "+str(months_not_found[q])+" tiles no clear historical image was found\nPercentage of polluted pixels allowed: "+p)
+        fig.set_figheight(8)
+        fig.set_figwidth(15)
+
+        ax1.bar(bins,values)
+        ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+        ax1.set_xticklabels(bins, rotation=45)
+        ax1.grid()
+        xticklock=[]
+        for w in range(len(bins2[1:])):
+          xticklock.append(w+0.5)
+
+        ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
+        ax2.set_xticks(xticklock)
+        print(bins2)
+        ax2.set_xticklabels(bins2[1:])
+        ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
+        ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
+        ax2.grid()
+        plt.savefig("results/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+        plt.close()
+      
     
     
 '''  
