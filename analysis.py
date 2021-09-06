@@ -102,7 +102,7 @@ for place in places:
     bins2.append(0)
     for j in range(nr):
       bins.append(str(j*5)+"<x<"+str((j+1)*5))
-      bins2.append("<"+str((j+1)*5))
+      bins2.append(str((j+1)*5))
       nr_of_days=0
       for val in place_days:
         if(val>=j*5 and val<(j+1)*5):
@@ -117,11 +117,14 @@ for place in places:
       values2.append(values2[-1]+values[j])
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
+
     fig.suptitle(place+"\nAverage time distance: "+str(int(aver))+"\n For "+str(place_did_found)+" tiles clear historical image was found, for "+str(place_not_found)+" tiles no clear historical image was found\nPercentage of polluted pixels allowed: "+p)
     fig.set_figheight(8)
     fig.set_figwidth(15)
 
     ax1.bar(bins,values)
+    ax.tick_params(axis='x', which='major', labelsize=6)
+    ax.tick_params(axis='x', which='minor', labelsize=6)
     ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax1.set_xticklabels(bins, rotation=45)
     ax1.grid()
@@ -131,12 +134,14 @@ for place in places:
 
     ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
     ax2.set_xticks(xticklock)
+    ax.tick_params(axis='x', which='major', labelsize=6)
+    ax.tick_params(axis='x', which='minor', labelsize=6)
     print(bins2)
     ax2.set_xticklabels(bins2[1:])
     ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
     ax2.grid()
-    plt.savefig("results/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+    plt.savefig("results_2/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
     plt.close()
     for q in range(5):
         all_days=months_found[q]+months_not_found[q]
@@ -150,7 +155,7 @@ for place in places:
         bins2.append(0)
         for j in range(nr):
           bins.append(str(j*5)+"<x<"+str((j+1)*5))
-          bins2.append("<"+str((j+1)*5))
+          bins2.append(str((j+1)*5))
           nr_of_days=0
           for val in months_days[q]:
             if(val>=j*5 and val<(j+1)*5):
@@ -170,6 +175,8 @@ for place in places:
         fig.set_figwidth(15)
 
         ax1.bar(bins,values)
+        ax1.tick_params(axis='x', which='major', labelsize=6)
+        ax1.tick_params(axis='x', which='minor', labelsize=6)
         ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
         ax1.set_xticklabels(bins, rotation=45)
         ax1.grid()
@@ -179,12 +186,14 @@ for place in places:
 
         ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
         ax2.set_xticks(xticklock)
+        ax2.tick_params(axis='x', which='major', labelsize=6)
+        ax2.tick_params(axis='x', which='minor', labelsize=6)
         print(bins2)
         ax2.set_xticklabels(bins2[1:])
         ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
         ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
         ax2.grid()
-        plt.savefig("results/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+        plt.savefig("results_2/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
         plt.close()
       
     
