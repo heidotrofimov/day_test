@@ -101,11 +101,11 @@ for place in places:
     bins2=[]
     bins2.append(0)
     for j in range(nr):
-      bins.append(str(j*5)+"<x<"+str((j+1)*5))
-      bins2.append(str((j+1)*5))
+      bins.append(str(j*30)+"<x<"+str((j+1)*30))
+      bins2.append(str((j+1)*30))
       nr_of_days=0
       for val in place_days:
-        if(val>=j*5 and val<(j+1)*5):
+        if(val>=j*30 and val<(j+1)*30):
           nr_of_days+=1
       values.append((nr_of_days/all_days)*100)
     bins.append("∞")
@@ -141,7 +141,7 @@ for place in places:
     ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
     ax2.grid()
-    plt.savefig("results_2/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+    plt.savefig("results_3/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
     plt.close()
     for q in range(5):
         all_days=months_found[q]+months_not_found[q]
@@ -154,11 +154,11 @@ for place in places:
         bins2=[]
         bins2.append(0)
         for j in range(nr):
-          bins.append(str(j*5)+"<x<"+str((j+1)*5))
-          bins2.append(str((j+1)*5))
+          bins.append(str(j*30)+"<x<"+str((j+1)*30))
+          bins2.append(str((j+1)*30))
           nr_of_days=0
           for val in months_days[q]:
-            if(val>=j*5 and val<(j+1)*5):
+            if(val>=j*30 and val<(j+1)*30):
               nr_of_days+=1
           values.append((nr_of_days/all_days)*100)
         bins.append("∞")
@@ -193,7 +193,7 @@ for place in places:
         ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
         ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
         ax2.grid()
-        plt.savefig("results_2/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+        plt.savefig("results_3/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
         plt.close()
       
     
