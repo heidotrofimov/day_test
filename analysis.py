@@ -95,7 +95,7 @@ for place in places:
     aver=np.mean(place_days)
     maks=np.max(place_days)
     miinn=np.min(place_days)
-    nr=int(math.ceil(maks/5))
+    nr=int(math.ceil(maks/30))
     bins=[]
     values=[]
     bins2=[]
@@ -148,7 +148,7 @@ for place in places:
         aver=np.mean(months_days[q])
         maks=np.max(months_days[q])
         miinn=np.min(months_days[q])
-        nr=int(math.ceil(maks/5))
+        nr=int(math.ceil(maks/30))
         bins=[]
         values=[]
         bins2=[]
