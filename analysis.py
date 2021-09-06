@@ -123,8 +123,8 @@ for place in places:
     fig.set_figwidth(15)
 
     ax1.bar(bins,values)
-    ax.tick_params(axis='x', which='major', labelsize=6)
-    ax.tick_params(axis='x', which='minor', labelsize=6)
+    ax1.tick_params(axis='x', which='major', labelsize=6)
+    ax1.tick_params(axis='x', which='minor', labelsize=6)
     ax1.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax1.set_xticklabels(bins, rotation=45)
     ax1.grid()
@@ -134,8 +134,8 @@ for place in places:
 
     ax2.plot(bins2,values2, linestyle='--', drawstyle='steps')
     ax2.set_xticks(xticklock)
-    ax.tick_params(axis='x', which='major', labelsize=6)
-    ax.tick_params(axis='x', which='minor', labelsize=6)
+    ax2.tick_params(axis='x', which='major', labelsize=6)
+    ax2.tick_params(axis='x', which='minor', labelsize=6)
     print(bins2)
     ax2.set_xticklabels(bins2[1:])
     ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
