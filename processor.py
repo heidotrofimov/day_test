@@ -149,18 +149,21 @@ def tile_clear_image(im_S2,name,where,pr):
 year="2019"
 years=["2020"]
 places=["T35VMC"]
-percents=[2,3,5]
+percents=[2,3,5,7,8,10]
 
 year="2020"
 
 for place in places:
     os.system("rm month*.xml")
-    current_dir=place+"_"+year+"_256_pr"
+    current_dir=place+"_"+year+"_512_pr"
     os.system("mkdir "+current_dir)
     os.system("mkdir "+current_dir+"/target_images")
     os.system("mkdir "+current_dir+"/clear_images_2")
     os.system("mkdir "+current_dir+"/clear_images_3")
     os.system("mkdir "+current_dir+"/clear_images_5")
+    os.system("mkdir "+current_dir+"/clear_images_7")
+    os.system("mkdir "+current_dir+"/clear_images_8")
+    os.system("mkdir "+current_dir+"/clear_images_10")
 
     months=["11","10","09","08","07","06","05","04"]
     active_months=["11","10","09","08","07"]
@@ -182,7 +185,7 @@ for place in places:
         for product in month_list:
             product_list.append(product)
 
-    tile_size=256
+    tile_size=512
 
     for j in range(len(product_list)):
         name=product_list[j]
@@ -247,6 +250,9 @@ for place in places:
                         where2=open(current_dir+"/clear_images_2/"+product_list[j]+".txt","w")
                         where3=open(current_dir+"/clear_images_3/"+product_list[j]+".txt","w")
                         where4=open(current_dir+"/clear_images_5/"+product_list[j]+".txt","w")
+                        where5=open(current_dir+"/clear_images_7/"+product_list[j]+".txt","w")
+                        where6=open(current_dir+"/clear_images_8/"+product_list[j]+".txt","w")
+                        where7=open(current_dir+"/clear_images_10/"+product_list[j]+".txt","w")
                         #os.system("mkdir target_images/"+product_list[j])
                         #os.system("mkdir clear_images/"+product_list[j])
                         tile_image(im_S2,product_list[j],where1)
@@ -254,23 +260,38 @@ for place in places:
                         tile_clear_image(im_S2,product_list[j],where2,2)
                         tile_clear_image(im_S2,product_list[j],where3,3)
                         tile_clear_image(im_S2,product_list[j],where4,5)
+                        tile_clear_image(im_S2,product_list[j],where5,7)
+                        tile_clear_image(im_S2,product_list[j],where6,8)
+                        tile_clear_image(im_S2,product_list[j],where7,10)
                         where1.close()
                         where2.close()
                         where3.close()
                         where4.close()
+                        where5.close()
+                        where6.close()
+                        where7.close()
                         os.system("rm -r prediction/*")
                     if(month in passive_months):
                         where2=open(current_dir+"/clear_images_2/"+product_list[j]+".txt","w")
                         where3=open(current_dir+"/clear_images_3/"+product_list[j]+".txt","w")
                         where4=open(current_dir+"/clear_images_5/"+product_list[j]+".txt","w")
+                        where5=open(current_dir+"/clear_images_7/"+product_list[j]+".txt","w")
+                        where6=open(current_dir+"/clear_images_8/"+product_list[j]+".txt","w")
+                        where7=open(current_dir+"/clear_images_10/"+product_list[j]+".txt","w")
                         #os.system("mkdir clear_images/"+product_list[j])
                         os.system("~/miniconda3/envs/cm_predict/bin/python cm_predict.py -c config/config_example.json -product "+name)
                         tile_clear_image(im_S2,product_list[j],where2,2)
                         tile_clear_image(im_S2,product_list[j],where3,3)
                         tile_clear_image(im_S2,product_list[j],where4,5)
+                        tile_clear_image(im_S2,product_list[j],where5,7)
+                        tile_clear_image(im_S2,product_list[j],where6,8)
+                        tile_clear_image(im_S2,product_list[j],where7,10)
                         where2.close()
                         where3.close()
                         where4.close()
+                        where5.close()
+                        where6.close()
+                        where7.close()
                         os.system("rm -r prediction/*")
                     os.system("rm -r data/*")
                     os.system("rm -r products/*")
