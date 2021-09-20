@@ -13,7 +13,7 @@ did_found=0
 places=["T35VMC"]
 years=["2020"]
 
-pr=["2","3","5"]
+pr=["2","3","5",7","8","10"]
 
 months_days=[[[],[],[],[],[]],[[],[],[],[],[]],[[],[],[],[],[]]]
 months_found=[[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]],[[0],[0],[0],[0],[0]]]
@@ -36,20 +36,20 @@ for place in places:
     place_not_found=0
     place_did_found=0
     for year in years:
-      for directory in os.listdir(place+"_"+year+"_256_pr/target_images"):
+      for directory in os.listdir(place+"_"+year+"_512_pr/target_images"):
         date_str=directory.split("_")[2]
         date_obj=datetime(int(date_str[0:4]),int(date_str[4:6]),int(date_str[6:8]))
-        f=open(place+"_"+year+"_256/target_images/"+directory,"r")
+        f=open(place+"_"+year+"_512/target_images/"+directory,"r")
         lines=f.readlines()
         f.close()
         for target_tile in lines:
           found_date=datetime(1900,1,1)
           found=False
-          for directory2 in os.listdir(place+"_"+year+"_256_pr/clear_images_"+p):
+          for directory2 in os.listdir(place+"_"+year+"_512_pr/clear_images_"+p):
             date_str2=directory2.split("_")[2]
             date_obj2=datetime(int(date_str2[0:4]),int(date_str2[4:6]),int(date_str2[6:8]))
             if(date_obj>date_obj2):
-              f=open(place+"_"+year+"_256_pr/clear_images_"+p+"/"+directory2,"r")
+              f=open(place+"_"+year+"_512_pr/clear_images_"+p+"/"+directory2,"r")
               lines2=f.readlines()
               f.close()
               for clear_tile in lines2:
@@ -141,7 +141,7 @@ for place in places:
     ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
     ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
     ax2.grid()
-    plt.savefig("results_3/"+place+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+    plt.savefig("results_3/"+place+"_512_allyears_pr"+p+".png",bbox_inches='tight')
     plt.close()
     for q in range(5):
         all_days=months_found[q]+months_not_found[q]
@@ -193,7 +193,7 @@ for place in places:
         ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
         ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
         ax2.grid()
-        plt.savefig("results_3/"+place+"_"+names[q]+"_256_allyears_pr"+p+".png",bbox_inches='tight')
+        plt.savefig("results_3/"+place+"_"+names[q]+"_512_allyears_pr"+p+".png",bbox_inches='tight')
         plt.close()
       
     
@@ -219,20 +219,20 @@ for year in years:
   
   
   for place in places:
-    for directory in os.listdir(place+"_"+year+"_256/target_images"):
+    for directory in os.listdir(place+"_"+year+"_512/target_images"):
       date_str=directory.split("_")[2]
       date_obj=datetime(int(date_str[0:4]),int(date_str[4:6]),int(date_str[6:8]))
-      f=open(place+"_"+year+"_256/target_images/"+directory,"r")
+      f=open(place+"_"+year+"_512/target_images/"+directory,"r")
       lines=f.readlines()
       f.close()
       for target_tile in lines:
         found_date=datetime(1900,1,1)
         found=False
-        for directory2 in os.listdir(place+"_"+year+"_256/clear_images"):
+        for directory2 in os.listdir(place+"_"+year+"_512/clear_images"):
           date_str2=directory2.split("_")[2]
           date_obj2=datetime(int(date_str2[0:4]),int(date_str2[4:6]),int(date_str2[6:8]))
           if(date_obj>date_obj2):
-            f=open(place+"_"+year+"_256/clear_images/"+directory2,"r")
+            f=open(place+"_"+year+"_512/clear_images/"+directory2,"r")
             lines2=f.readlines()
             f.close()
             for clear_tile in lines2:
@@ -314,7 +314,7 @@ for year in years:
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
   ax2.grid()
-  plt.savefig("results/"+year+"_256_allplaces.png",bbox_inches='tight')
+  plt.savefig("results/"+year+"_512_allplaces.png",bbox_inches='tight')
   plt.close()
   
   
@@ -362,7 +362,7 @@ ax2.set_xticklabels(bins2[1:])
 ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
 ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
 ax2.grid()
-plt.savefig("results/alldata_256.png",bbox_inches='tight')
+plt.savefig("results/alldata_512.png",bbox_inches='tight')
 plt.close()
 
 #Kuude lõikes:
@@ -415,6 +415,6 @@ for i in range(5):
   ax2.set(xlabel="Days between target tile and last clear tile", ylabel="% of all target tiles")
   ax2.set_yticks(np.arange(min(values2), max(values2)+5, 5.0))
   ax2.grid()
-  plt.savefig("results/"+name+"_256_allplaces_allyears.png",bbox_inches='tight')
+  plt.savefig("results/"+name+"_512_allplaces_allyears.png",bbox_inches='tight')
   plt.close()
 '''
