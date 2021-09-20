@@ -39,7 +39,7 @@ for place in places:
       for directory in os.listdir(place+"_"+year+"_512_pr/target_images"):
         date_str=directory.split("_")[2]
         date_obj=datetime(int(date_str[0:4]),int(date_str[4:6]),int(date_str[6:8]))
-        f=open(place+"_"+year+"_512/target_images/"+directory,"r")
+        f=open(place+"_"+year+"_512_pr/target_images/"+directory,"r")
         lines=f.readlines()
         f.close()
         for target_tile in lines:
